@@ -2,14 +2,16 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAcvdh7mR364L0QVohtkKBybOXXPPidljM",
-    authDomain: "books-e2853.firebaseapp.com",
-    projectId: "books-e2853",
-    storageBucket: "books-e2853.appspot.com",
-    messagingSenderId: "577715316017",
-    appId: "1:577715316017:web:f55452bbdad34724f23c10"
+    apiKey: "AIzaSyACuEIo5LWPnKIMO-calXJQPxgiPHYgjh0",
+    authDomain: "gift-shop-2af83.firebaseapp.com",
+    projectId: "gift-shop-2af83",
+    storageBucket: "gift-shop-2af83.appspot.com",
+    messagingSenderId: "612552505934",
+    appId: "1:612552505934:web:0df4b775c96ab18e44211f",
+    measurementId: "G-MY119DCC8J"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
 
 export default firebase;
