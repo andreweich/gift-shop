@@ -1,5 +1,5 @@
 
-function Shop({title, thriftImg, price}) {
+function Shop({title, thriftImg, price, onAdd}) {
     
     return (
         
@@ -10,7 +10,7 @@ function Shop({title, thriftImg, price}) {
             <h2>{title}</h2>
             <div className="priceButton">
                 <h3>{price}</h3>
-                <button type="submit" value="add" className="addToCart"> Add To Cart </button>
+                <button onClick={() => onAdd(title)} className="addToCart"> Add To Cart </button>
             </div>
         </li>
             // <div>{cartItems}</div>

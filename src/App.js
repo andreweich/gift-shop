@@ -8,60 +8,65 @@ import { useState, useEffect } from 'react';
 function App() {
 
   // set data from firebase in useState
-  const [items, setItems] = useState([]);
-  // const [giftCart, setGiftCart] = useState({});
-  // const [total, setTotal] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   // const [cartCount, setCartCount] = useState(0);
-  // const [cart, setCart] = useState([]);
+  
 
   useEffect (() => {
     
     // reference to firebase databas
     const dbItems = firebase.database().ref();
     dbItems.on('value', (response) => {
-      const itemState = [];
+      const productState = [];
       const itemData = response.val();
       for (let key in itemData) {
-        itemState.push(itemData[key]);
+        productState.push(itemData[key]);
       }
 
-      setItems(itemState);
+      setProducts(productState);
       setIsLoading(false);
     })
   }, [])
 
+
   // Add to cart function... 
-  // const newGiftCart = {...giftCart};
 
-  // const handleAddToCart = (purchase) => {
-  //   if (newGiftCart[purchase.id]) {
-  //     const cartItem = newGiftCart[purchase.id];
-  //     cartItem.quantity = cartItem.quantity + 1;
-  //     cartItem.totalQuanity = cartItem.totalQuanity + purchase.product.price
-  //   } else {
-  //     newGiftCart[purchase.id] = {
-  //       quantity: 1, 
-  //       quantityTotal: purchase.product.price
-  //     }
-  //   }
-  // }
+  const onAdd = (cartItem) => {
+    console.log(cartItem);
+    const copyOfProducts = [...products];
+    console.log(...products);
+    
+    const filterProducts = copyOfProducts.filter((product => {
+      console.log(product);
+      return cartItem;
+    }));
+    
+    
+    setCartItems(filterProducts);
+    console.log(filterProducts);
+    // if (exist) {
+    //   setCartItems(
+    //     cartItems.map(item => 
+    //       item.id === product.id ? {...isExist, qty: isExist.qty + 1} : item
+    //     )
+    //   );
+    // } else {
+    //   setCartItems([...cartItems, {...product, qty: 1 }]);
+  }
 
+  // copyOfProducts.find(item => item.id === product.id)
   
-
-  // setGiftCart(newGiftCart)
+  const popOutCart = () => {
+    document.getElementById('thriftCart').classList.remove('thriftCart');
+    document.getElementById('thriftCart').classList.add('openCart');
+  }
   
-  // setCartCount(cartCount + 1)
-  
-  // const popOutCart = () => {
-  //   document.getElementById('thriftCart').classList.remove('thriftCart');
-  //   document.getElementById('thriftCart').classList.add('openCart');
-  // }
-  
-  // const closeCart = () => {
-  //   document.getElementById('thriftCart').classList.remove('openCart');
-  //   document.getElementById('thriftCart').classList.add('thriftCart');
-  // }
+  const closeCart = () => {
+    document.getElementById('thriftCart').classList.remove('openCart');
+    document.getElementById('thriftCart').classList.add('thriftCart');
+  }
   
   return (
     <div className="App">
@@ -70,7 +75,7 @@ function App() {
       <header className="wrapper">
         <h1>gift shop.</h1>
         {/* add onClick to button to display pop out menu */}
-        <button className="basket">
+        <button onClick={popOutCart} className="basket">
           <i className="fas fa-gift"></i>
         </button>
       </header>
@@ -82,16 +87,16 @@ function App() {
           {/* Map through products and add props */}
           <ul>
             {
-              isLoading ? <h2>one moment please...</h2> : items.map((item) => {
-                console.log(item);
+              isLoading ? <h2>one moment please...</h2> : products.map((product) => {
+                // console.log(product);
                 
                 return (
                   <Shop 
-                  key={item.id}
-                  title={item.product}
-                  thriftImg={item.img}
-                  price={item.price}
-                  
+                    key={product.id}
+                    title={product.product}
+                    thriftImg={product.img}
+                    price={product.price}
+                    onAdd={onAdd}
                   />
                   )
                 })
@@ -101,36 +106,16 @@ function App() {
 
         {/* Cart */}
 
-        {/* <section className="thriftCart wrapper" id="thriftCart">
-          <div onClick = {closeCart}>
-            <i className="far fa-times-circle"></i>
-          </div>
-          <table>
-            <tr>
-              <th>Gift</th>
-              <th>Qty</th>
-              <th>Price</th>
-            </tr>
+        <section className={"thriftCart wrapper"} id={"thriftCart"}>
           
-
-            {/* Map through cart to display items */}
-
-            {/* {
-              Object.values(giftCart).map((item) => {
-            
-                const { quantity, inventoryItem, total} = item;
-                return (
-                  <Cart
-                  giftName={inventoryItem.item.product}
-                  quantity={quantity}
-                  purchasePrice={total}
-                  />
-                )
-              })
-            } */}
-
-          {/* </table>
-        </section> */}
+            <Cart 
+              products={cartItems}
+              close={closeCart}
+            />
+                {/* onAdd={onAdd} */}
+          
+        </section>
+        
 
       </main>
 

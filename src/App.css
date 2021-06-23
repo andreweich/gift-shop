@@ -159,3 +159,23 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
+aside {
+    position: fixed;
+    right: 30px;
+    top: 20px;
+    width: 150px;
+    
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 5px;
+    border: 5px solid #008ac9;
+}
+
+aside h2 {
+    font-size: 1rem;
+}
+
+.productContainer h3 {
+    font-size: 0.8rem;
+}
+
